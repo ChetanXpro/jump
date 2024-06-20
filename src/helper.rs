@@ -20,6 +20,13 @@ pub fn add_to_file(name: &str, path: &str) {
         }
     }
 
+    if PathBuf::from(path.to_string()).try_exists().unwrap() {
+        // println!("Found value: {}", path.display());
+    } else {
+        eprintln!("Invalid path: {}", path);
+        return;
+    }
+
     storage::write_to_json(name.to_string(), PathBuf::from(path.to_string())).unwrap();
 }
 
@@ -43,7 +50,7 @@ pub fn read_from_file(name: String) -> Result<PathBuf, Error> {
     let path = storage::read_from_json(&name).unwrap();
 
     if path.try_exists().unwrap() {
-        println!("Found value: {}", path.display());
+        // println!("Found value: {}", path.display());
         Ok(path)
     } else {
         Err(Error::new(io::ErrorKind::InvalidData, "Not a valid path"))

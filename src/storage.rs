@@ -20,7 +20,7 @@ pub fn create_storage(storage_path: PathBuf) -> Result<(), Error> {
     let mut file = OpenOptions::new()
         .write(true)
         .truncate(true)
-        .open(getProjectJsonPath().unwrap())
+        .open(get_project_json_path().unwrap())
         .unwrap();
 
     file.write_all(b"{}").unwrap();
@@ -28,7 +28,7 @@ pub fn create_storage(storage_path: PathBuf) -> Result<(), Error> {
     Ok(())
 }
 
-pub fn getProjectJsonPath() -> Result<PathBuf, Error> {
+pub fn get_project_json_path() -> Result<PathBuf, Error> {
     ProjectDirs::from("com", "chetanxpro", "go")
         .map(|path| path.config_dir().join("list.json").to_path_buf())
         .ok_or_else(|| io::Error::new(io::ErrorKind::NotFound, "Project path not found"))
@@ -36,11 +36,7 @@ pub fn getProjectJsonPath() -> Result<PathBuf, Error> {
 
 pub fn write_to_json(name: String, path: PathBuf) -> Result<(), Error> {
     let mut list_json_data: Value = {
-        println!(
-            "project path: {}",
-            getProjectJsonPath().unwrap().to_string_lossy()
-        );
-        let text: String = fs::read_to_string(getProjectJsonPath().unwrap()).unwrap();
+        let text: String = fs::read_to_string(get_project_json_path().unwrap()).unwrap();
 
         serde_json::from_str::<Value>(&text)
     }
@@ -49,6 +45,14 @@ pub fn write_to_json(name: String, path: PathBuf) -> Result<(), Error> {
     // println!("")
 
     if let Some(object) = list_json_data.as_object_mut() {
+        if let Some(value) = object.get(&name) {
+            let err_msg = format!(
+                "A path already exists with Name: {}, Path: {}",
+                &name, value
+            );
+            eprintln!("{}", err_msg);
+            return Err(io::Error::new(io::ErrorKind::AlreadyExists, err_msg));
+        }
         object.insert(String::from(name), Value::from(path.to_str()));
     }
 
@@ -57,7 +61,7 @@ pub fn write_to_json(name: String, path: PathBuf) -> Result<(), Error> {
     let mut file = OpenOptions::new()
         .write(true)
         .truncate(true)
-        .open(getProjectJsonPath().unwrap())
+        .open(get_project_json_path().unwrap())
         .unwrap();
 
     file.write_all(updated_json.as_bytes())?;
@@ -67,7 +71,7 @@ pub fn write_to_json(name: String, path: PathBuf) -> Result<(), Error> {
 
 pub fn remove_from_json(name: String) -> Result<(), Error> {
     let mut list_json_data: Value = {
-        let text: String = fs::read_to_string(getProjectJsonPath().unwrap()).unwrap();
+        let text: String = fs::read_to_string(get_project_json_path().unwrap()).unwrap();
         serde_json::from_str::<Value>(&text)
     }
     .unwrap();
@@ -81,7 +85,7 @@ pub fn remove_from_json(name: String) -> Result<(), Error> {
     let mut file = OpenOptions::new()
         .write(true)
         .truncate(true)
-        .open(getProjectJsonPath().unwrap())
+        .open(get_project_json_path().unwrap())
         .unwrap();
 
     file.write_all(updated_json.as_bytes())?;
@@ -91,14 +95,14 @@ pub fn remove_from_json(name: String) -> Result<(), Error> {
 
 pub fn read_from_json(name: &String) -> Result<PathBuf, Error> {
     let mut list_json_data = {
-        let text = fs::read_to_string(getProjectJsonPath().unwrap()).unwrap();
+        let text = fs::read_to_string(get_project_json_path().unwrap()).unwrap();
         serde_json::from_str::<Value>(&text)
             .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))
     }
     .unwrap();
 
     if let Some(object) = list_json_data.as_object_mut() {
-        let value = object.get(&name.to_owned()).unwrap();
+        let value = object.get(&name.to_owned()).expect("Value not found");
 
         if let Some(path_str) = value.as_str() {
             Ok(PathBuf::from(path_str))
@@ -118,7 +122,7 @@ pub fn read_from_json(name: &String) -> Result<PathBuf, Error> {
 
 pub fn list_all_names() -> Result<(), Error> {
     let mut list_json_data = {
-        let text = fs::read_to_string(getProjectJsonPath().unwrap()).unwrap();
+        let text = fs::read_to_string(get_project_json_path().unwrap()).unwrap();
         serde_json::from_str::<Value>(&text)
             .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))
     }
@@ -127,7 +131,7 @@ pub fn list_all_names() -> Result<(), Error> {
     if let Some(object) = list_json_data.as_object_mut() {
         let _value = object
             .into_iter()
-            .for_each(|val| println!("Name: {}: {}", val.0, val.1));
+            .for_each(|val| println!("name: {} Path: {}", val.0, val.1));
     }
     Ok(())
 }

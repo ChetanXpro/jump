@@ -1,5 +1,6 @@
+use std::process;
+
 use clap::{Parser, Subcommand};
-use directories::ProjectDirs;
 mod helper;
 mod storage;
 
@@ -30,15 +31,12 @@ enum Commands {
         /// Name of the shortcut to remove
         #[arg(help = "The shortcut name")]
         name: String,
-        /// Path of the directory to remove
-        #[arg(help = "The directory path to remove")]
-        path: String,
     },
     /// Views details of a specific directory shortcut
     View {
         /// Name of the shortcut to view
-        #[arg(help = "The shortcut name to view")]
-        name: String,
+        #[arg(help = "The optional shortcut name to view", required = false)]
+        name: Option<String>,
     },
 }
 
@@ -48,22 +46,51 @@ fn main() {
     // Handle optional subcommands
     match (&args.dirname, &args.command) {
         (Some(dirname), None) => {
-            // If only a directory name is provided, treat it as a request to navigate
-            println!("Changing to directory: {}", dirname);
-            // Here you would typically trigger some action to handle this
+            match helper::read_from_file(dirname.to_owned()) {
+                Ok(path_buf) => {
+                    // Ensure only the path is printed to stdout for shell consumption
+                    println!("{}", path_buf.display());
+                }
+                Err(e) => {
+                    eprintln!("Error: {}", e); // Print errors to stderr
+                    process::exit(1);
+                }
+            }
         }
         (_, Some(Commands::Add { name, path })) => {
-            println!("Adding new directory '{}': '{}'", name, path);
+            // println!("Adding new directory '{}': '{}'", name, path);
             // Code to add the directory shortcut
             helper::add_to_file(name, path)
         }
-        (_, Some(Commands::Remove { name, path })) => {
-            println!("Removing directory '{}': '{}'", name, path);
+        (_, Some(Commands::Remove { name })) => {
+            // println!("Removing directory '{}': '{}'", name, path);
+            storage::remove_from_json(name.to_owned()).unwrap();
             // Code to remove the directory shortcut
         }
         (_, Some(Commands::View { name })) => {
-            println!("Viewing details for directory '{}'", name);
-            // Code to display details of the directory shortcut
+            // match helper::read_from_file(name.to_owned()) {
+            //     Ok(path_buf) => {
+            //         // Ensure only the path is printed to stdout for shell consumption
+            //         println!("Path: {}", path_buf.display());
+            //     }
+            //     Err(e) => {
+            //         eprintln!("Error: {}", e); // Print errors to stderr
+            //         process::exit(1);
+            //     }
+            // }
+            match name {
+                Some(name) => match helper::read_from_file(name.to_owned()) {
+                    Ok(path_buf) => println!("Path: {}", path_buf.display()),
+                    Err(e) => {
+                        eprintln!("Error: {}", e);
+                        process::exit(1);
+                    }
+                },
+                None => {
+                    // Code to list all entries
+                    storage::list_all_names().unwrap();
+                }
+            }
         }
         (None, None) => {
             println!("No directory specified and no command provided. Please specify a directory or use a subcommand.");
