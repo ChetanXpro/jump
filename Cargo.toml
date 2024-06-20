@@ -13,6 +13,7 @@ readme = "README.md"
 
 keywords = ["coreutils", "cd", "files", "filesystem","jump"]
 categories =["command-line-utilities"]
+license = "GPL-3.0-only"
 
 [dependencies]
 
