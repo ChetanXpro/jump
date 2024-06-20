@@ -1,5 +1,5 @@
 use std::{
-    fs,
+    env, fs,
     io::{self, Error},
     path::PathBuf,
 };
@@ -20,14 +20,20 @@ pub fn add_to_file(name: &str, path: &str) {
         }
     }
 
-    if PathBuf::from(path.to_string()).try_exists().unwrap() {
-        // println!("Found value: {}", path.display());
+    let path_to_save: PathBuf;
+    if path == "." {
+        path_to_save = env::current_dir().unwrap();
     } else {
-        eprintln!("Invalid path: {}", path);
-        return;
+        path_to_save = PathBuf::from(path);
+        if path_to_save.try_exists().unwrap() {
+            // println!("Found value: {}", path.display());
+        } else {
+            eprintln!("Invalid path: {}", path);
+            return;
+        }
     }
 
-    storage::write_to_json(name.to_string(), PathBuf::from(path.to_string())).unwrap();
+    storage::write_to_json(name.to_string(), path_to_save).unwrap();
 }
 
 pub fn read_from_file(name: String) -> Result<PathBuf, Error> {
