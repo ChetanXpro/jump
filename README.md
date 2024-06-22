@@ -24,7 +24,9 @@ Install Jumb directly from Cargo:
 cargo install jumb
 ```
 
-- NOTE: after intalling jumb with cargo , wrapping it with shell is must, to make the tool work properly.
+**NOTE**: After installing Jumb with Cargo, it's essential to wrap it with a shell script to make the tool work properly.
+
+
 ### Setting Up the Shell Wrapper
 
 Integrate Jumb with your shell by adding a shell wrapper to your .zshrc or .bashrc file. This wrapper ensures that using Jumb feels like a natural extension of your shell commands.
@@ -74,12 +76,19 @@ Set up and manage your directory shortcuts easily:
 - Add a Shortcut
 
 ```bash
-jnav add <shortcut_name> /path/to/directory
+jnav add shortcut_name absolute/path/to/directory
 ```
 
-For example if you want to add current dir path then you can run command with a full stop to add current dir.
+For example, if you want to add the current directory path, then you can run the command with a full stop to add the current dir.
 ```bash
 jnav add project .
+```
+
+
+- Navigate quickly using:
+
+```bash
+jnav shortcut_name
 ```
 
 - Remove a Shortcut
@@ -101,12 +110,6 @@ jnav view
 jnav view <Shortcut_name>
 ```
 
-
-Navigate quickly using:
-
-```bash
-jnav shortcut_name
-```
 
 
 ## Contributing
