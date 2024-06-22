@@ -38,35 +38,39 @@ cargo install jumb
 Integrate Jumb with your shell by adding a shell wrapper to your .zshrc or .bashrc file. This wrapper ensures that using Jumb feels like a natural extension of your shell commands.
 
 ```bash
-# Add this script to your shell configuration file (.zshrc or .bashrc)
 
+# Jumb tool wrapper
 function jnav() {
-    # Ensure no conflicts with existing 'jumb' commands
+
     unalias jumb 2>/dev/null
     unset -f jumb 2>/dev/null
 
-    # Locate the Jumb binary dynamically
+    # Find the path to the 'jumb' executable dynamically
     local jumb_path=$(which jumb)
     if [[ -z "$jumb_path" ]]; then
-        echo "Jumb is not installed or not found in PATH."
-        return 1
+        echo "The 'jumb' command is not installed or not in PATH."
+        return 1  # Exit the function with an error status
     fi
 
-    # Execute Jumb commands
+
+    # Check if the command is 'view' without additional arguments
     if [[ "$1" == "view" ]] && [[ $# -eq 1 ]]; then
-        $jumb_path view  # Lists directories without changing the directory
+        # This should only list the directories, not change to any directory
+        $jumb_path view
     elif [[ $# -eq 1 ]]; then
+        # Assuming any single argument not prefixed by 'view' is a path name
         local dir=$($jumb_path "$1")
         if [[ -d "$dir" ]]; then
-            echo "Changing directory to: $dir"
             cd "$dir"
         else
             echo "Directory not found: $dir"
         fi
     else
+        # Handle other commands or multiple arguments normally
         $jumb_path "$@"
     fi
 }
+
 
 ```
 
