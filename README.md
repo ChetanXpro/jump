@@ -1,6 +1,13 @@
 # Jumb
 
-Jumb is a command-line tool that simplifies navigation across your file system by allowing you to create and use shortcuts for your directories. Instead of repeatedly typing long `cd` commands to access frequently visited directories, you can set up memorable shortcuts once and use them to jump directly to those directories.
+![Friendship ended with X, now Y is my best friend](https://github.com/ChetanXpro/jump/assets/107798155/cfece286-e927-4616-b73d-0e68afa65df8)
+
+
+
+How many times do you run the `cd` command in a day? If you're like many developers, it's probably more than you'd like to count.
+
+**Jumb** is a command-line tool designed to dramatically enhance directory navigation. By allowing users to create and use shortcuts for frequently accessed directories, Jumb reduces the need to execute lengthy `cd` commands. This not only streamlines your workflow but also saves a significant amount of time throughout your day.
+
 
 ## Key Benefits
 
@@ -12,11 +19,13 @@ Jumb is a command-line tool that simplifies navigation across your file system b
 
 ### Using Cargo
 
-Install Jumb directly from Cargo, which handles the setup automatically:
+Install Jumb directly from Cargo:
 
 ```bash
 cargo install jumb
 ```
+
+- NOTE: after intalling jumb with cargo , wrapping it with shell is must, to make the tool work properly.
 ### Setting Up the Shell Wrapper
 
 Integrate Jumb with your shell by adding a shell wrapper to your .zshrc or .bashrc file. This wrapper ensures that using Jumb feels like a natural extension of your shell commands.
