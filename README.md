@@ -64,6 +64,11 @@ function jnav() {
 
 ```
 
+Why Use ``jnav`` Instead of ``jumb``?
+- The ``jnav`` function is used instead of directly invoking jumb to avoid any potential conflicts with the binary name. This function ensures that the shell correctly handles the custom functionality provided by Jumb, such as managing and navigating to directory shortcuts.
+
+
+
 ### Customizing Function Name
 
 If you prefer a different name for the function, replace jnav with your chosen name to prevent potential conflicts with the Jumb binary.
