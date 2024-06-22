@@ -1,10 +1,8 @@
 # Jumb
 
+How many times do you run the `cd` command in a day? If you're like many developers, it's probably more than you'd like to count.
 ![Friendship ended with X, now Y is my best friend](https://github.com/ChetanXpro/jump/assets/107798155/cfece286-e927-4616-b73d-0e68afa65df8)
 
-
-
-How many times do you run the `cd` command in a day? If you're like many developers, it's probably more than you'd like to count.
 
 **Jumb** is a command-line tool designed to dramatically enhance directory navigation. By allowing users to create and use shortcuts for frequently accessed directories, Jumb reduces the need to execute lengthy `cd` commands. This not only streamlines your workflow but also saves a significant amount of time throughout your day.
 
