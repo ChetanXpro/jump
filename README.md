@@ -4,15 +4,21 @@ How many times do you run the `cd` command in a day? If you're like many develop
 
 ![Friendship ended with X, now Y is my best friend](https://github.com/ChetanXpro/jump/assets/107798155/cfece286-e927-4616-b73d-0e68afa65df8)
 
-
-**Jumb** is a command-line tool designed to dramatically enhance directory navigation. By allowing users to create and use shortcuts for frequently accessed directories, Jumb reduces the need to execute lengthy `cd` commands. This not only streamlines your workflow but also saves a significant amount of time throughout your day.
-
+**Jumb** is a command-line tool that simplifies directory navigation by allowing users to create shortcuts for frequently accessed directories. This reduces the need for lengthy `cd` commands, saving time and streamlining workflow.
 
 ## Key Benefits
 
 - **Reduce `cd` Usage**: Minimize the need to use lengthy `cd` commands by setting up shortcuts to your most used directories.
 - **Save Time**: Dramatically reduce the time spent navigating between different parts of your file system, enhancing productivity, especially for developers and system administrators.
 - **Streamline Workflow**: Improve your workflow efficiency by quickly switching contexts between projects and directories.
+
+## Prerequisites
+
+Before installing Jumb, ensure you have the following installed on your system:
+
+- **Git**: Required to clone the repository if not installing via Cargo.
+- **Rust and Cargo**: Jumb is built with Rust, so you'll need Rust and Cargo installed to compile and install it directly from the source or via Cargo. Install them from [the official Rust site](https://www.rust-lang.org/tools/install).
+
 
 ## Installation
 
