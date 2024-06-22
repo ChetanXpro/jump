@@ -1,6 +1,7 @@
 # Jumb
 
 How many times do you run the `cd` command in a day? If you're like many developers, it's probably more than you'd like to count.
+
 ![Friendship ended with X, now Y is my best friend](https://github.com/ChetanXpro/jump/assets/107798155/cfece286-e927-4616-b73d-0e68afa65df8)
 
 
