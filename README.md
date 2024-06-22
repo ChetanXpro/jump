@@ -1,4 +1,4 @@
-# Jumb
+# Jumb: Simplify Directory Navigation
 
 How many times do you run the `cd` command in a day? If you're like many developers, it's probably more than you'd like to count.
 
